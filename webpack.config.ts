@@ -17,10 +17,6 @@ const config: webpack.Configuration = {
         filename: '[name].[contenthash].js',
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'src/index.html'
-        }),
         new ModuleLogger({
             output: 'unused'
         }),
