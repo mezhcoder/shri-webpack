@@ -8,13 +8,14 @@ class ModuleLogger {
 
     constructor(options : any) {
         this.options = Object.assign({
-            include: ['src/**']
+            include: ['src/**'],
+            exclude: []
         } as any, options)
     }
     apply(compiler: Compiler) {
         compiler.hooks.afterEmit.tapPromise('ModuleLogger', async ({fileDependencies}) => {
             let modules = new Set(await glob(this.options.include, {
-                ignore: [],
+                ignore: this.options.exclude,
                 absolute: true
             }));
 
