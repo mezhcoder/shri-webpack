@@ -8,14 +8,13 @@ class ModuleLogger {
 
     constructor(options : any) {
         this.options = Object.assign({
-            include: ['src/**'],
-            exclude: []
+            include: ['src/**']
         } as any, options)
     }
     apply(compiler: Compiler) {
-        compiler.hooks.afterEmit.tapPromise('ModuleLogger', async ({fileDependencies}) => {
+        compiler.hooks.afterEmit.tap('ModuleLogger', async ({fileDependencies}) => {
             let modules = new Set(await glob(this.options.include, {
-                ignore: this.options.exclude,
+                ignore: [],
                 absolute: true
             }));
 
@@ -30,6 +29,7 @@ class ModuleLogger {
 
     saveResult(modules : any) {
         let json = JSON.stringify(Array.from(modules.keys()), null, '\t');
+        console.log(json);
         return writeFile(this.options.output, json);
     }
 }
