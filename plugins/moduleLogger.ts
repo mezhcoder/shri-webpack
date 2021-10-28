@@ -8,7 +8,7 @@ class ModuleLogger {
 
     constructor(options : any) {
         this.options = Object.assign({
-            include: ['./**']
+            include: ['./']
         } as any, options)
     }
     apply(compiler: Compiler) {
