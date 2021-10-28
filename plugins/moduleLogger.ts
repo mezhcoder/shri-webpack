@@ -14,7 +14,7 @@ class ModuleLogger {
     apply(compiler: Compiler) {
         compiler.hooks.afterEmit.tap('ModuleLogger', async ({fileDependencies}) => {
             let modules = new Set(await glob(this.options.include, {
-                ignore: ['dist','node_modules', 'plugins'],
+                ignore: ['dist', 'node_modules', 'plugins'],
                 absolute: true
             }));
 
