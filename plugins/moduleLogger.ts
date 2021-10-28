@@ -8,21 +8,21 @@ class ModuleLogger {
 
     constructor(options : any) {
         this.options = Object.assign({
-            include: ['src/**']
+            include: ['src/**'],
+            exclude: []
         } as any, options)
     }
     apply(compiler: Compiler) {
-        compiler.hooks.afterEmit.tap('ModuleLogger', async ({fileDependencies}) => {
+        compiler.hooks.afterEmit.tapPromise('ModuleLogger', async ({fileDependencies}) => {
             let modules = new Set(await glob(this.options.include, {
-                ignore: [],
+                ignore: this.options.exclude,
                 absolute: true
             }));
 
             // @ts-ignore
             for (let depend of fileDependencies) {
-                if (extname(depend) && !depend.includes('node_modules')) {
-                    modules.delete(depend.replace(/\\+/g, '/'));
-                }
+                if (extname(depend) && !depend.includes('node_modules'))
+                    modules.delete(depend);
             }
             await this.saveResult(modules);
         });
@@ -30,7 +30,6 @@ class ModuleLogger {
 
     saveResult(modules : any) {
         let json = JSON.stringify(Array.from(modules.keys()), null, '\t');
-        console.log(json);
         return writeFile(this.options.output, json);
     }
 }
