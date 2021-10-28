@@ -32,6 +32,8 @@
     "bn.js": "^5.2.0",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
+    "fast-glob": "^3.2.7",
+    "path-browserify": "^1.0.1",
     "react": "^17.0.2"
   }
 }

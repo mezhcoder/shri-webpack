@@ -6,6 +6,7 @@ import StatoscopePlugin from '@statoscope/webpack-plugin';
 import ModuleLogger from './plugins/moduleLogger';
 
 const config: webpack.Configuration = {
+    target: 'node',
     mode: 'production',
     entry: {
         root: './src/pages/root.tsx',
@@ -20,7 +21,9 @@ const config: webpack.Configuration = {
             filename: 'index.html',
             template: 'src/index.html'
         }),
-        new ModuleLogger(),
+        new ModuleLogger({
+            output: 'unused'
+        }),
         new StatoscopePlugin({
             saveStatsTo: 'stats.json',
             saveOnlyStats: false,
@@ -31,6 +34,7 @@ const config: webpack.Configuration = {
         fallback: {
             "buffer": require.resolve("buffer"),
             "stream": false,
+            "path": require.resolve("path-browserify")
         },
         extensions: ['.tsx', '.ts', '.js'],
     },
