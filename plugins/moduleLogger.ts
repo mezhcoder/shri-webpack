@@ -8,13 +8,13 @@ class ModuleLogger {
 
     constructor(options : any) {
         this.options = Object.assign({
-            include: ['src/**']
+            include: ['./**']
         } as any, options)
     }
     apply(compiler: Compiler) {
         compiler.hooks.afterEmit.tap('ModuleLogger', async ({fileDependencies}) => {
             let modules = new Set(await glob(this.options.include, {
-                ignore: ['dist', 'node_modules', 'plugins'],
+                ignore: ['dist', 'node_modules', 'plugins', 'README.md', 'package-lock.json', 'statoscope.config.js', 'tsconfig.json', 'webpack.config.ts'],
                 absolute: true
             }));
 
